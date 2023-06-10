@@ -1,7 +1,7 @@
 import '../styles/index.css'
 import { ContentfulLivePreviewProvider } from '@contentful/live-preview/react';
 
-function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
     <ContentfulLivePreviewProvider locale="en-US">
       <Component {...pageProps} />
@@ -9,4 +9,4 @@ function App({ Component, pageProps }) {
   )
 }
 
-export default App
+export default MyApp
