@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 import Head from 'next/head'
 import ErrorPage from 'next/error'
 import Container from '../../components/container'
@@ -11,13 +12,22 @@ import Layout from '../../components/layout'
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
 import { CMS_NAME } from '../../lib/constants'
-import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
 
 export default function Post({ post, morePosts, preview }) {
 
   const router = useRouter()
 
-  const updatedPost = useContentfulLiveUpdates(post);
+  // TODO: Replace this with useContentfulLiveUpdates(post);
+  const updatedPost = post;
+
+  // Following guide for setting up live review
+  // https://www.contentful.com/developers/docs/tutorials/general/live-preview/#set-up-live-updates
+
+  // This doesn't work, for some reason
+  // Get vague error
+  // RangeError: Maximum call stack size exceeded
+  //   const updatedPost = useContentfulLiveUpdates(post);
+
 
   if (!router.isFallback && !updatedPost) {
     return <ErrorPage statusCode={404} />
