@@ -5,18 +5,25 @@ import Intro from '../components/intro'
 import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import Head from 'next/head'
+import Header from '../components/header'
 import { CMS_NAME } from '../lib/constants'
 
-export default function Index({ preview, allPosts }) {
+export default function Index({ preview, allPosts, myFancyDate }) {
+
+  const myFancyDateObj = JSON.parse(myFancyDate);
+
+  const title = "Welcome! The time is " +  myFancyDateObj.time;
+
   const heroPost = allPosts[0]
   const morePosts = allPosts.slice(1)
   return (
     <>
       <Layout preview={preview}>
         <Head>
-          <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
+          <title>Bjarte's Blog</title>
         </Head>
         <Container>
+          <Header title={title} />
           <Intro />
           {heroPost && (
             <HeroPost
@@ -35,9 +42,19 @@ export default function Index({ preview, allPosts }) {
   )
 }
 
-export async function getStaticProps({ preview = false }) {
+// export async function getStaticProps({ preview = false }) {
+//   const allPosts = (await getAllPostsForHome(preview)) ?? []
+//   return {
+//     props: { preview, allPosts },
+//   }
+// }
+
+export async function getServerSideProps({ preview = false }) {
+  const myFancyDate = JSON.stringify({ time: new Date() });
+
   const allPosts = (await getAllPostsForHome(preview)) ?? []
+
   return {
-    props: { preview, allPosts },
-  }
+    props: { preview, allPosts, myFancyDate }
+  };
 }
