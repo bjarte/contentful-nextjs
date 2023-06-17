@@ -1,12 +1,10 @@
 import '../styles/index.css'
 import { ContentfulLivePreviewProvider } from '@contentful/live-preview/react';
 
-function MyApp({ Component, pageProps }) {
-  return (
-    // <ContentfulLivePreviewProvider locale="en-US">
-      <Component {...pageProps} />
-    // </ContentfulLivePreviewProvider>
-  )
-}
+const MyApp = ({ Component, pageProps }) => (
+  <ContentfulLivePreviewProvider locale="en-US">
+    <Component {...pageProps} />
+  </ContentfulLivePreviewProvider>
+)
 
 export default MyApp
