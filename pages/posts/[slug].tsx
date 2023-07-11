@@ -8,7 +8,6 @@ import {
 
 import Head from 'next/head'
 // import ErrorPage from 'next/error'
-import Container from '../../components/container'
 import PostBody from '../../components/post-body'
 import MoreStories from '../../components/more-stories'
 import Header from '../../components/header'
@@ -42,28 +41,26 @@ export default function Post({ preview, post, morePosts }) {
 
   return (
     <Layout preview={preview}>
-      <Container>
-        <Header title={updatedPost.title} />
-        <article>
-          <Head>
-            <title>
-              {`${updatedPost.title} | Bjarte's Blog`}
-            </title>
-            <meta property="og:image" content={updatedPost.coverImage.url} />
-          </Head>
-          <PostHeader
-            title={updatedPost.title}
-            coverImage={updatedPost.coverImage}
-            date={updatedPost.date}
-            author={updatedPost.author}
-          />
-          <PostBody content={updatedPost.content} />
-        </article>
-        <SectionSeparator />
-        {morePosts && morePosts.length > 0 && (
-          <MoreStories posts={morePosts} />
-        )}
-      </Container>
+      <Header title={updatedPost.title} />
+      <article>
+        <Head>
+          <title>
+            {`${updatedPost.title} | Bjarte's Blog`}
+          </title>
+          <meta property="og:image" content={updatedPost.coverImage.url} />
+        </Head>
+        <PostHeader
+          title={updatedPost.title}
+          coverImage={updatedPost.coverImage}
+          date={updatedPost.date}
+          author={updatedPost.author}
+        />
+        <PostBody content={updatedPost.content} />
+      </article>
+      <SectionSeparator />
+      {morePosts && morePosts.length > 0 && (
+        <MoreStories posts={morePosts} />
+      )}
     </Layout>
   )
 }
