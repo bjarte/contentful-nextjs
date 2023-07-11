@@ -1,7 +1,13 @@
-import { useRouter } from 'next/router'
-import { useContentfulLiveUpdates } from '@contentful/live-preview/react';
+import { GetStaticProps, GetStaticPaths, NextPage } from 'next';
+
+// import { useRouter } from 'next/router'
+import {
+  useContentfulInspectorMode,
+  useContentfulLiveUpdates,
+} from '@contentful/live-preview/react';
+
 import Head from 'next/head'
-import ErrorPage from 'next/error'
+// import ErrorPage from 'next/error'
 import Container from '../../components/container'
 import PostBody from '../../components/post-body'
 import MoreStories from '../../components/more-stories'
@@ -10,15 +16,17 @@ import PostHeader from '../../components/post-header'
 import SectionSeparator from '../../components/section-separator'
 import Layout from '../../components/layout'
 import { getAllPostsWithSlug, getPostAndMorePosts } from '../../lib/api'
-import PostTitle from '../../components/post-title'
-import { CMS_NAME } from '../../lib/constants'
+// import PostTitle from '../../components/post-title'
 
-export default function Post({ post, morePosts, preview }) {
+export default function Post({ preview, post, morePosts }) {
 
-  const router = useRouter()
+  // const router = useRouter()
 
   // TODO: Replace this with useContentfulLiveUpdates(post);
   const updatedPost = post;
+
+  let temp = useContentfulLiveUpdates(post)
+  console.log(temp)
 
   // Following guide for setting up live review
   // https://www.contentful.com/developers/docs/tutorials/general/live-preview/#set-up-live-updates
@@ -28,39 +36,32 @@ export default function Post({ post, morePosts, preview }) {
   // RangeError: Maximum call stack size exceeded
   //   const updatedPost = useContentfulLiveUpdates(post);
 
-
-  if (!router.isFallback && !updatedPost) {
-    return <ErrorPage statusCode={404} />
-  }
+  // if (!router.isFallback && !updatedPost) {
+  //   return <ErrorPage statusCode={404} />
+  // }
 
   return (
     <Layout preview={preview}>
       <Container>
-        <Header />
-        {router.isFallback ? (
-          <PostTitle>Loading…</PostTitle>
-        ) : (
-          <>
-            <article>
-              <Head>
-                <title>
-                  {`${updatedPost.title} | Next.js Blog Example with ${CMS_NAME}`}
-                </title>
-                <meta property="og:image" content={updatedPost.coverImage.url} />
-              </Head>
-              <PostHeader
-                title={updatedPost.title}
-                coverImage={updatedPost.coverImage}
-                date={updatedPost.date}
-                author={updatedPost.author}
-              />
-              <PostBody content={updatedPost.content} />
-            </article>
-            <SectionSeparator />
-            {morePosts && morePosts.length > 0 && (
-              <MoreStories posts={morePosts} />
-            )}
-          </>
+        <Header title={updatedPost.title} />
+        <article>
+          <Head>
+            <title>
+              {`${updatedPost.title} | Bjarte's Blog`}
+            </title>
+            <meta property="og:image" content={updatedPost.coverImage.url} />
+          </Head>
+          <PostHeader
+            title={updatedPost.title}
+            coverImage={updatedPost.coverImage}
+            date={updatedPost.date}
+            author={updatedPost.author}
+          />
+          <PostBody content={updatedPost.content} />
+        </article>
+        <SectionSeparator />
+        {morePosts && morePosts.length > 0 && (
+          <MoreStories posts={morePosts} />
         )}
       </Container>
     </Layout>
@@ -69,7 +70,6 @@ export default function Post({ post, morePosts, preview }) {
 
 export async function getStaticProps({ params, preview = false }) {
   const data = await getPostAndMorePosts(params.slug, preview)
-
   return {
     props: {
       preview,

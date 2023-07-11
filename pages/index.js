@@ -6,7 +6,6 @@ import Layout from '../components/layout'
 import { getAllPostsForHome } from '../lib/api'
 import Head from 'next/head'
 import Header from '../components/header'
-import { CMS_NAME } from '../lib/constants'
 
 export default function Index({ preview, allPosts, myFancyDate }) {
 
@@ -42,19 +41,9 @@ export default function Index({ preview, allPosts, myFancyDate }) {
   )
 }
 
-// export async function getStaticProps({ preview = false }) {
-//   const allPosts = (await getAllPostsForHome(preview)) ?? []
-//   return {
-//     props: { preview, allPosts },
-//   }
-// }
-
-export async function getServerSideProps({ preview = false }) {
-  const myFancyDate = JSON.stringify({ time: new Date() });
-
+export async function getStaticProps({ preview = false }) {
   const allPosts = (await getAllPostsForHome(preview)) ?? []
-
   return {
-    props: { preview, allPosts, myFancyDate }
-  };
+    props: { preview, allPosts },
+  }
 }

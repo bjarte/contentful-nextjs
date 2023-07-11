@@ -261,7 +261,7 @@ In your Contentful space, go to **Settings > Webhooks** and add a new webhook:
 - **Activate:** Check the activate checkbox to ensure the webhook is marked as active
 - **Specify the POST URL:** Using the URL from your Vercel deployment in step 8, add the path `/api/revalidate` at the end, so it would look something like:
 
-  ```
+  ```url
   https://<YOUR_VERCEL_DEPLOYMENT_URL>/api/revalidate
   ```
 

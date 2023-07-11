@@ -3,5 +3,5 @@ module.exports = {
   images: {
     loader: 'custom',
   },
-  output: "standalone",
+  output: "standalone"
 }
